@@ -8,8 +8,11 @@ import {
   useStreamCanvasThread,
   WidgetSurface,
 } from "@streamcanvas/react";
-import { useDeferredValue, useState } from "react";
+import { useDeferredValue, useEffect, useState } from "react";
 import { z } from "zod";
+
+import { SiteFooter } from "./site-footer";
+import { SiteHeader } from "./site-header";
 
 const taskBoardDefinition = registerGenerativeComponent({
   name: "task-board",
@@ -64,7 +67,6 @@ const bookmarkScenarioTool = registerClientTool({
     })
     .passthrough(),
   async run(input) {
-    const storageKey = "streamcanvas.bookmarks";
     const nextEntry = {
       id:
         typeof crypto !== "undefined" && "randomUUID" in crypto
@@ -73,13 +75,9 @@ const bookmarkScenarioTool = registerClientTool({
       label: input.summary ?? input.scenario ?? "widget",
       savedAt: new Date().toISOString(),
     };
-    const current = JSON.parse(localStorage.getItem(storageKey) ?? "[]") as {
-      id: string;
-      label: string;
-      savedAt: string;
-    }[];
+    const current = loadBookmarks();
     const next = [nextEntry, ...current].slice(0, 6);
-    localStorage.setItem(storageKey, JSON.stringify(next));
+    localStorage.setItem(bookmarkStorageKey, JSON.stringify(next));
     return {
       count: next.length,
       saved: nextEntry.label,
@@ -93,9 +91,30 @@ const promptPresets = [
   "Create an operating brief the team can save and share.",
 ];
 
+const bookmarkStorageKey = "streamcanvas.bookmarks";
+
+interface BookmarkEntry {
+  id: string;
+  label: string;
+  savedAt: string;
+}
+
+function loadBookmarks(): BookmarkEntry[] {
+  if (typeof window === "undefined") {
+    return [];
+  }
+
+  try {
+    return JSON.parse(localStorage.getItem(bookmarkStorageKey) ?? "[]") as BookmarkEntry[];
+  } catch {
+    return [];
+  }
+}
+
 function DemoWorkspace() {
-  const { isBusy, sendPrompt, state } = useStreamCanvasThread();
+  const { isBusy, resetThread, sendPrompt, state } = useStreamCanvasThread();
   const [prompt, setPrompt] = useState(promptPresets[0]);
+  const [bookmarks, setBookmarks] = useState<BookmarkEntry[]>([]);
   const deferredPrompt = useDeferredValue(prompt);
 
   const visiblePresets = promptPresets.filter((item) => {
@@ -106,22 +125,27 @@ function DemoWorkspace() {
     return item.toLowerCase().includes(deferredPrompt.toLowerCase());
   });
 
+  useEffect(() => {
+    setBookmarks(loadBookmarks());
+  }, [state.lastWidgetEvent, state.messages.length]);
+
   function submitPrompt(value: string) {
     void sendPrompt(value);
   }
 
+  function resetWorkspace() {
+    setPrompt(promptPresets[0]);
+    resetThread();
+  }
+
+  function clearBookmarks() {
+    localStorage.removeItem(bookmarkStorageKey);
+    setBookmarks([]);
+  }
+
   return (
     <main className="shell">
-      <header className="site-nav">
-        <a className="brand" href="/">
-          StreamCanvas
-        </a>
-        <nav className="nav-links">
-          <a href="/">Overview</a>
-          <a href="/docs">Docs</a>
-          <a href="https://github.com/miounet11/claude-generative-ui">GitHub</a>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <section className="demo-hero">
         <div>
@@ -138,6 +162,24 @@ function DemoWorkspace() {
       <section className="demo-grid">
         <aside className="control-panel">
           <div className="control-card">
+            <div className="mini-label">Workspace telemetry</div>
+            <div className="metric-grid">
+              <div className="metric-card">
+                <strong>{state.messages.length}</strong>
+                <span>Messages</span>
+              </div>
+              <div className="metric-card">
+                <strong>{state.widgets.length}</strong>
+                <span>Widgets</span>
+              </div>
+              <div className="metric-card">
+                <strong>{state.errors.length}</strong>
+                <span>Errors</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="control-card">
             <div className="mini-label">Prompt composer</div>
             <textarea
               className="prompt-textarea"
@@ -152,6 +194,13 @@ function DemoWorkspace() {
                 type="button"
               >
                 {isBusy ? "Streaming…" : "Run prompt"}
+              </button>
+              <button
+                className="secondary-button"
+                onClick={resetWorkspace}
+                type="button"
+              >
+                Reset thread
               </button>
             </div>
           </div>
@@ -173,6 +222,34 @@ function DemoWorkspace() {
                 </button>
               ))}
             </div>
+          </div>
+
+          <div className="control-card">
+            <div className="mini-label">Saved scenarios</div>
+            {bookmarks.length === 0 ? (
+              <div className="empty-state">
+                Use a widget action that calls <code>bookmarkScenario</code> and the
+                saved scenario will appear here.
+              </div>
+            ) : (
+              <>
+                <div className="bookmark-list">
+                  {bookmarks.map((bookmark) => (
+                    <article className="bookmark-item" key={bookmark.id}>
+                      <strong>{bookmark.label}</strong>
+                      <span>{new Date(bookmark.savedAt).toLocaleString()}</span>
+                    </article>
+                  ))}
+                </div>
+                <button
+                  className="subtle-button"
+                  onClick={clearBookmarks}
+                  type="button"
+                >
+                  Clear saved scenarios
+                </button>
+              </>
+            )}
           </div>
 
           <div className="control-card">
@@ -208,6 +285,8 @@ function DemoWorkspace() {
           </section>
         </div>
       </section>
+
+      <SiteFooter />
     </main>
   );
 }

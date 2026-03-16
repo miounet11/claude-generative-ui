@@ -7,6 +7,11 @@ StreamCanvas is an open-source generative UI project for AI applications.
 
 Primary pages:
 - Overview: ${absoluteUrl("/")}
+- Platform: ${absoluteUrl("/platform")}
+- Solutions: ${absoluteUrl("/solutions")}
+- Security: ${absoluteUrl("/security")}
+- Resources: ${absoluteUrl("/resources")}
+- Open-source Claude generative UI: ${absoluteUrl("/claude-generative-ui")}
 - Demo: ${absoluteUrl("/demo")}
 - Docs: ${absoluteUrl("/docs")}
 - GitHub: https://github.com/miounet11/claude-generative-ui

@@ -1,5 +1,10 @@
 import Link from "next/link";
 
+import { JsonLd } from "../components/json-ld";
+import { SiteFooter } from "../components/site-footer";
+import { SiteHeader } from "../components/site-header";
+import { createFaqSchema, createSoftwareSchema } from "../lib/seo";
+import { platformLayers, resourceLibrary, solutionTracks } from "../lib/marketing";
 const capabilities = [
   {
     body: "Tool-call streams turn into real surfaces, not screenshots or markdown hacks.",
@@ -39,43 +44,12 @@ const faqItems = [
   },
 ];
 
-const softwareSchema = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  applicationCategory: "DeveloperApplication",
-  description:
-    "Open-source generative UI for AI apps with streamed widgets, schema-validated React components, and a self-hostable reference app.",
-  name: "StreamCanvas",
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-  operatingSystem: "Web",
-  url: "https://codeclaude.cn",
-};
-
 export default function HomePage() {
   return (
     <main className="shell">
-      <script
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(softwareSchema),
-        }}
-        type="application/ld+json"
-      />
-      <header className="site-nav">
-        <Link className="brand" href="/">
-          StreamCanvas
-        </Link>
-        <nav className="nav-links">
-          <Link href="/docs">Docs</Link>
-          <Link href="/demo">Demo</Link>
-          <a href="https://github.com/miounet11/claude-generative-ui" rel="noreferrer">
-            GitHub
-          </a>
-        </nav>
-      </header>
+      <JsonLd data={createSoftwareSchema()} />
+      <JsonLd data={createFaqSchema(faqItems)} />
+      <SiteHeader />
 
       <section className="hero">
         <div>
@@ -135,6 +109,16 @@ export default function HomePage() {
         ))}
       </section>
 
+      <section className="section-grid">
+        {platformLayers.slice(0, 3).map((layer) => (
+          <article className="section-card" key={layer.title}>
+            <div className="section-kicker">Platform layer</div>
+            <h2>{layer.title}</h2>
+            <p>{layer.body}</p>
+          </article>
+        ))}
+      </section>
+
       <section className="section-stack">
         <article className="section-card wide-card">
           <div className="section-kicker">Who it is for</div>
@@ -146,6 +130,31 @@ export default function HomePage() {
             evaluation, then reusable packages for integration.
           </p>
         </article>
+      </section>
+
+      <section className="section-stack">
+        <article className="section-card wide-card">
+          <div className="section-kicker">Search intent</div>
+          <h2>Looking for open-source Claude generative UI?</h2>
+          <p>
+            StreamCanvas is the production-oriented open-source answer to that
+            search: a Claude-style generative UI pattern with a typed stream,
+            sandboxed widget renderer, React SDK, and self-hostable reference app.
+          </p>
+          <Link className="text-link" href="/claude-generative-ui">
+            Read the implementation guide
+          </Link>
+        </article>
+      </section>
+
+      <section className="section-grid">
+        {solutionTracks.slice(0, 3).map((track) => (
+          <article className="section-card" key={track.title}>
+            <div className="section-kicker">Where it fits</div>
+            <h2>{track.title}</h2>
+            <p>{track.body}</p>
+          </article>
+        ))}
       </section>
 
       <section className="split-section">
@@ -175,6 +184,22 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="resource-grid">
+        {resourceLibrary.map((item) => (
+          <article className="resource-card" key={item.href}>
+            <div className="resource-meta">
+              <span>{item.category}</span>
+              <span>{item.readTime}</span>
+            </div>
+            <h2>{item.title}</h2>
+            <p>{item.description}</p>
+            <Link className="text-link" href={item.href}>
+              Read article
+            </Link>
+          </article>
+        ))}
+      </section>
+
       <section className="faq-grid">
         {faqItems.map((item) => (
           <article className="faq-card" key={item.question}>
@@ -194,6 +219,8 @@ export default function HomePage() {
           Explore the demo workspace
         </Link>
       </section>
+
+      <SiteFooter />
     </main>
   );
 }

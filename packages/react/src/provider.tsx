@@ -72,6 +72,13 @@ export interface StreamCanvasProviderProps {
   tools?: ClientToolDefinition[];
 }
 
+type ProviderAction =
+  | ConversationStreamEvent
+  | {
+      type: "__reset__";
+      seed?: Partial<StreamCanvasState>;
+    };
+
 interface StreamCanvasContextValue {
   components: AnyGenerativeComponentDefinition[];
   endpoint: string;
@@ -84,6 +91,17 @@ interface StreamCanvasContextValue {
 }
 
 const StreamCanvasContext = createContext<StreamCanvasContextValue | null>(null);
+
+function applyProviderAction(
+  state: StreamCanvasState,
+  action: ProviderAction,
+): StreamCanvasState {
+  if (action.type === "__reset__") {
+    return createInitialState(action.seed);
+  }
+
+  return applyConversationEvent(state, action);
+}
 
 export function registerGenerativeComponent<
   Schema extends ZodTypeAny = ZodTypeAny,
@@ -107,9 +125,10 @@ export function StreamCanvasProvider({
   onWidgetEvent,
   tools = [],
 }: StreamCanvasProviderProps) {
+  const baseState = createInitialState(initialState);
   const [state, dispatch] = useReducer(
-    applyConversationEvent,
-    createInitialState(initialState),
+    applyProviderAction,
+    baseState,
   );
   const [isBusy, setIsBusy] = useState(false);
 
@@ -222,9 +241,12 @@ export function StreamCanvasProvider({
   function resetThread() {
     startTransition(() => {
       dispatch({
-        type: "status",
-        phase: "idle",
-        label: "Thread reset",
+        type: "__reset__",
+        seed: {
+          ...baseState,
+          connection: "idle",
+          statusLabel: "Thread reset",
+        },
       });
     });
   }

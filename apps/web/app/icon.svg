@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">StreamCanvas icon</title>
+  <desc id="desc">Rounded square icon with an orange to mint gradient ribbon.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#081117" />
+      <stop offset="100%" stop-color="#0d171d" />
+    </linearGradient>
+    <linearGradient id="ribbon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f27405" />
+      <stop offset="100%" stop-color="#64d8c2" />
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#bg)" />
+  <path d="M30 92 53 36h16L46 92H30Zm33 0 22-56h13l-22 56H63Z" fill="url(#ribbon)" />
+</svg>

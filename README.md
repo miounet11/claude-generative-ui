@@ -39,8 +39,12 @@ Open `http://localhost:3000`.
 ## Docs
 
 - Overview: `/`
+- Open-source Claude generative UI guide: `/claude-generative-ui`
 - Demo: `/demo`
 - Docs: `/docs`
+- Platform: `/platform`
+- Security: `/security`
+- Resources: `/resources`
 - Agent-readable index: `/llms.txt`
 
 ## Deployment
@@ -83,6 +87,12 @@ import {
 - `pnpm test`: run the core test suite
 - `pnpm typecheck`: run TypeScript checks across workspaces
 - `bash scripts/deploy-safe.sh`: build and print the isolated deployment steps
+
+## Reference app highlights
+
+- live demo workspace with prompt presets, telemetry, and saved scenario history
+- keyword-targeted content hub for discovery and evaluation
+- metadata routes for sitemap, robots, web manifest, and share cards
 
 ## License
 

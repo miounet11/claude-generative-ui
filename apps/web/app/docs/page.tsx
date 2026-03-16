@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { SiteFooter } from "../../components/site-footer";
+import { SiteHeader } from "../../components/site-header";
 import { absoluteUrl } from "../../lib/site";
 
 export const metadata: Metadata = {
@@ -36,16 +38,7 @@ const sections = [
 export default function DocsPage() {
   return (
     <main className="shell docs-shell">
-      <header className="site-nav">
-        <Link className="brand" href="/">
-          StreamCanvas
-        </Link>
-        <nav className="nav-links">
-          <Link href="/">Overview</Link>
-          <Link href="/demo">Demo</Link>
-          <a href="https://github.com/miounet11/claude-generative-ui">GitHub</a>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <section className="docs-hero">
         <div className="eyebrow">Documentation</div>
@@ -92,12 +85,13 @@ pnpm dev`}</pre>
 
         <article className="docs-card">
           <div className="section-kicker">Deploy</div>
-          <pre className="code-panel">{`docker compose -f infra/docker-compose.yml up -d --build
-cp infra/nginx/codeclaude.cn.conf /etc/nginx/conf.d/codeclaude.cn.conf
-nginx -t && systemctl reload nginx`}</pre>
+          <pre className="code-panel">{`pnpm build
+rsync -az apps/web/.next/standalone/ server:/opt/streamcanvas-web/
+rsync -az apps/web/.next/static/ server:/opt/streamcanvas-web/apps/web/.next/static/
+systemctl enable --now streamcanvas-web`}</pre>
           <p className="docs-copy">
-            The container binds to <strong>127.0.0.1:3210</strong> only, so nginx
-            can route traffic without conflicting with existing public services.
+            The preferred production path uses the Next.js standalone runtime behind
+            nginx with the app bound only to <strong>127.0.0.1:3210</strong>.
           </p>
         </article>
       </section>
@@ -114,14 +108,20 @@ pnpm dev`}</pre>
         <article className="docs-card">
           <div className="section-kicker">Public routes</div>
           <ul className="docs-list">
-            <li>`/` marketing landing page</li>
-            <li>`/demo` live product demo</li>
-            <li>`/docs` onboarding and integration notes</li>
-            <li>`/api/health` deployment health probe</li>
-            <li>`/api/demo` NDJSON demo stream endpoint</li>
+            <li><code>/</code> marketing landing page</li>
+            <li><code>/platform</code> architecture and deployment model</li>
+            <li><code>/solutions</code> product-fit and workflow examples</li>
+            <li><code>/security</code> safety and operational boundaries</li>
+            <li><code>/resources</code> professional long-form content hub</li>
+            <li><code>/claude-generative-ui</code> intent page for Claude-style OSS discovery</li>
+            <li><code>/demo</code> live product demo</li>
+            <li><code>/api/health</code> deployment health probe</li>
+            <li><code>/api/demo</code> NDJSON demo stream endpoint</li>
           </ul>
         </article>
       </section>
+
+      <SiteFooter />
     </main>
   );
 }
