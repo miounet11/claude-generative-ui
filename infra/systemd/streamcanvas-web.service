@@ -1,0 +1,19 @@
+[Unit]
+Description=StreamCanvas Web
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/streamcanvas-web/apps/web
+Environment=NODE_ENV=production
+Environment=HOSTNAME=127.0.0.1
+Environment=PORT=3210
+Environment=SITE_URL=https://codeclaude.cn
+Environment=NEXT_PUBLIC_SITE_URL=https://codeclaude.cn
+ExecStart=/usr/bin/node /opt/streamcanvas-web/apps/web/server.js
+Restart=always
+RestartSec=5
+User=root
+
+[Install]
+WantedBy=multi-user.target

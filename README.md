@@ -43,6 +43,12 @@ Open `http://localhost:3000`.
 - Docs: `/docs`
 - Agent-readable index: `/llms.txt`
 
+## Deployment
+
+- Standalone service template: `infra/systemd/streamcanvas-web.service`
+- Reverse proxy config: `infra/nginx/codeclaude.cn.conf`
+- Container fallback: `infra/docker-compose.yml`
+
 ## Public API
 
 ```ts
