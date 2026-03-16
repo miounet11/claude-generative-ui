@@ -36,6 +36,13 @@ pnpm dev
 
 Open `http://localhost:3000`.
 
+## Docs
+
+- Overview: `/`
+- Demo: `/demo`
+- Docs: `/docs`
+- Agent-readable index: `/llms.txt`
+
 ## Public API
 
 ```ts
@@ -69,6 +76,7 @@ import {
 - `pnpm build`: build all packages and the app
 - `pnpm test`: run the core test suite
 - `pnpm typecheck`: run TypeScript checks across workspaces
+- `bash scripts/deploy-safe.sh`: build and print the isolated deployment steps
 
 ## License
 

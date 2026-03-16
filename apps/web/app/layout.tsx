@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 
+import { getSiteUrl } from "../lib/site";
 import "./globals.css";
 
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://codeclaude.cn"),
+  metadataBase: new URL(siteUrl),
   title: "StreamCanvas",
   description:
     "Open-source generative UI for AI apps: stream live widgets, diagrams, dashboards, and operational surfaces from tool calls.",
@@ -24,7 +27,7 @@ export const metadata: Metadata = {
       "Build production-ready generative UI with streamed widgets, safe rendering, and a self-hostable reference app.",
     siteName: "StreamCanvas",
     type: "website",
-    url: "https://codeclaude.cn",
+    url: siteUrl,
   },
   twitter: {
     card: "summary_large_image",

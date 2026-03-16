@@ -331,6 +331,51 @@ textarea {
   grid-template-columns: 320px 1fr;
 }
 
+.docs-shell {
+  padding-bottom: 5rem;
+}
+
+.docs-hero {
+  display: grid;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem 0 0.75rem;
+}
+
+.docs-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 1.5rem 0;
+}
+
+.docs-grid.two-up {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.docs-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.24);
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.docs-copy {
+  color: rgba(244, 240, 229, 0.78);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.docs-list {
+  color: rgba(244, 240, 229, 0.78);
+  line-height: 1.8;
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
 .control-panel,
 .workspace-grid {
   display: grid;
@@ -457,7 +502,9 @@ textarea {
   .demo-grid,
   .workspace-grid,
   .section-grid,
-  .faq-grid {
+  .faq-grid,
+  .docs-grid,
+  .docs-grid.two-up {
     grid-template-columns: 1fr;
   }
 

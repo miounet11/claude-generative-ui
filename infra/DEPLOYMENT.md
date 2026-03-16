@@ -18,6 +18,14 @@ nginx -t
 systemctl reload nginx
 ```
 
+## Validation
+
+```bash
+docker ps --filter name=streamcanvas-web
+curl http://127.0.0.1:3210/api/health
+curl -I http://127.0.0.1:3210/
+```
+
 ## Why this is safe
 
 - No host port 80/443 listener is created by the app container

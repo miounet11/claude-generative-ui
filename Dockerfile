@@ -22,4 +22,5 @@ ENV NODE_ENV=production
 ENV HOSTNAME=0.0.0.0
 ENV PORT=3000
 EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 CMD node -e "fetch('http://127.0.0.1:3000/api/health').then((res)=>{if(!res.ok) process.exit(1)}).catch(()=>process.exit(1))"
 CMD ["pnpm", "--filter", "@streamcanvas/web", "exec", "next", "start", "-p", "3000", "-H", "0.0.0.0"]

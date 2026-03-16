@@ -1,12 +1,14 @@
 import type { MetadataRoute } from "next";
 
+import { absoluteUrl, getSiteUrl } from "../lib/site";
+
 export default function robots(): MetadataRoute.Robots {
   return {
-    host: "https://codeclaude.cn",
+    host: getSiteUrl(),
     rules: {
       allow: "/",
       userAgent: "*",
     },
-    sitemap: "https://codeclaude.cn/sitemap.xml",
+    sitemap: absoluteUrl("/sitemap.xml"),
   };
 }

@@ -69,6 +69,7 @@ export default function HomePage() {
           StreamCanvas
         </Link>
         <nav className="nav-links">
+          <Link href="/docs">Docs</Link>
           <Link href="/demo">Demo</Link>
           <a href="https://github.com/miounet11/claude-generative-ui" rel="noreferrer">
             GitHub

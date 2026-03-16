@@ -118,6 +118,7 @@ function DemoWorkspace() {
         </a>
         <nav className="nav-links">
           <a href="/">Overview</a>
+          <a href="/docs">Docs</a>
           <a href="https://github.com/miounet11/claude-generative-ui">GitHub</a>
         </nav>
       </header>
