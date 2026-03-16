@@ -13,6 +13,10 @@ const BOT_STATE_DIR =
 const CONTENT_DIR =
   process.env.STREAMCANVAS_CONTENT_DIR ??
   path.join(process.cwd(), "apps/web/content/generated");
+const REQUEST_TIMEOUT_MS = Number.parseInt(
+  process.env.STREAMCANVAS_BOT_TIMEOUT_MS ?? "90000",
+  10,
+);
 
 const ALLOWED_INTERNAL_LINKS = [
   "/",
@@ -365,19 +369,39 @@ async function callModel(messages, maxTokens = 2200) {
   let lastError = null;
 
   for (let attempt = 1; attempt <= 3; attempt += 1) {
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        temperature: 0.7,
-        max_tokens: maxTokens,
-        messages,
-      }),
-    });
+    let response;
+
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+      try {
+        response = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${API_KEY}`,
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            model: MODEL,
+            temperature: 0.7,
+            max_tokens: maxTokens,
+            messages,
+          }),
+          signal: controller.signal,
+        });
+      } finally {
+        clearTimeout(timer);
+      }
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+
+      if (attempt < 3) {
+        await delay(1500 * attempt);
+        continue;
+      }
+
+      throw lastError;
+    }
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -416,19 +440,39 @@ async function callTextModel(messages, maxTokens = 500) {
   let lastError = null;
 
   for (let attempt = 1; attempt <= 3; attempt += 1) {
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        temperature: 0.2,
-        max_tokens: maxTokens,
-        messages,
-      }),
-    });
+    let response;
+
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+      try {
+        response = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${API_KEY}`,
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            model: MODEL,
+            temperature: 0.2,
+            max_tokens: maxTokens,
+            messages,
+          }),
+          signal: controller.signal,
+        });
+      } finally {
+        clearTimeout(timer);
+      }
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+
+      if (attempt < 3) {
+        await delay(1000 * attempt);
+        continue;
+      }
+
+      throw lastError;
+    }
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -732,7 +776,7 @@ async function main() {
   }
 
   const existingSlugs = await listExistingSlugs();
-  const topics = selectTopics(batchSize, state, existingSlugs);
+  const topics = selectTopics(batchSize * 3, state, existingSlugs);
 
   if (topics.length === 0) {
     console.log("No remaining approved topics are available.");
@@ -740,24 +784,59 @@ async function main() {
   }
 
   const publishedTopicIds = [...state.publishedTopicIds];
+  const failures = [];
+  let publishedCount = 0;
 
   for (const topic of topics) {
-    console.log(`Generating article for ${topic.slug}...`);
-    const article = await generateArticle(topic);
-
-    if (!dryRun) {
-      await publishArticle(article);
+    if (publishedCount >= batchSize) {
+      break;
     }
 
-    publishedTopicIds.push(topic.id);
-    console.log(`${dryRun ? "Validated" : "Published"} ${article.slug}`);
+    console.log(`Generating article for ${topic.slug}...`);
+    try {
+      const article = await generateArticle(topic);
+
+      if (!dryRun) {
+        await publishArticle(article);
+      }
+
+      publishedTopicIds.push(topic.id);
+      publishedCount += 1;
+      console.log(`${dryRun ? "Validated" : "Published"} ${article.slug}`);
+    } catch (error) {
+      failures.push({
+        message: error instanceof Error ? error.message : String(error),
+        topicId: topic.id,
+      });
+      console.error(
+        `Failed ${topic.slug}: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
   }
 
-  if (!dryRun) {
+  if (!dryRun && publishedCount > 0) {
     await writeState({
       lastRunOn: today,
       publishedTopicIds,
     });
+  }
+
+  if (failures.length > 0) {
+    console.error(
+      `Content batch completed with ${failures.length} failed topic(s).`,
+    );
+  }
+
+  if (publishedCount === 0) {
+    throw new Error("Content batch finished without publishing any articles.");
+  }
+
+  if (publishedCount < batchSize) {
+    console.log(
+      `Published ${publishedCount} article(s), below the target batch size of ${batchSize}.`,
+    );
   }
 }
 
