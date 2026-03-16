@@ -5,6 +5,7 @@
   "packageManager": "pnpm@10.13.1",
   "scripts": {
     "build": "turbo run build",
+    "content:generate": "node scripts/content-bot/publish-daily-content.mjs",
     "dev": "pnpm --filter @streamcanvas/web dev",
     "lint": "turbo run lint",
     "test": "vitest run",

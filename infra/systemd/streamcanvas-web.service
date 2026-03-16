@@ -10,6 +10,7 @@ Environment=HOSTNAME=127.0.0.1
 Environment=PORT=3210
 Environment=SITE_URL=https://codeclaude.cn
 Environment=NEXT_PUBLIC_SITE_URL=https://codeclaude.cn
+Environment=STREAMCANVAS_CONTENT_DIR=/opt/streamcanvas-web/content/generated
 ExecStart=/usr/bin/node /opt/streamcanvas-web/apps/web/server.js
 Restart=always
 RestartSec=5

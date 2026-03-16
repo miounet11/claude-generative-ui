@@ -6,6 +6,7 @@ StreamCanvas packages generative UI into an open-source product teams can ship:
 - A **React SDK** with a sandboxed widget surface and component registry
 - A **server package** that emits live NDJSON widget streams
 - A **Next.js reference app** and a `create-streamcanvas` scaffold
+- A **bilingual editorial engine** that adds daily resource pages
 
 This repository is named `claude-generative-ui` for discoverability, but the public-facing project brand is **StreamCanvas**.
 
@@ -26,6 +27,7 @@ The goal is not to clone Claude's internal implementation. The goal is to turn t
 - `@streamcanvas/server`: in-memory thread store, health snapshot, demo stream generator
 - `create-streamcanvas`: starter app scaffold
 - `apps/web`: landing page plus live demo
+- `scripts/content-bot`: automated bilingual content publisher
 
 ## Quickstart
 
@@ -48,11 +50,16 @@ Open `http://localhost:3000`.
 - Platform: `/platform`
 - Security: `/security`
 - Resources: `/resources`
+- 中文资源: `/zh-CN/resources`
 - Agent-readable index: `/llms.txt`
+- RSS feed: `/feed.xml`
+- XML sitemap: `/sitemap.xml`
 
 ## Deployment
 
 - Standalone service template: `infra/systemd/streamcanvas-web.service`
+- Daily content bot service: `infra/systemd/streamcanvas-content-bot.service`
+- Daily content bot timer: `infra/systemd/streamcanvas-content-bot.timer`
 - Reverse proxy config: `infra/nginx/codeclaude.cn.conf`
 - Container fallback: `infra/docker-compose.yml`
 
@@ -87,6 +94,7 @@ import {
 
 - `pnpm dev`: run the reference app
 - `pnpm build`: build all packages and the app
+- `pnpm content:generate -- --count=3 --force`: publish a bilingual article batch
 - `pnpm test`: run the core test suite
 - `pnpm typecheck`: run TypeScript checks across workspaces
 - `bash scripts/deploy-safe.sh`: build and print the isolated deployment steps
@@ -95,8 +103,9 @@ import {
 
 - live demo workspace with prompt presets, telemetry, and saved scenario history
 - keyword-targeted content hub for discovery and evaluation
-- metadata routes for sitemap, robots, web manifest, and share cards
+- metadata routes for sitemap, feed, robots, web manifest, and share cards
 - bilingual public site in English and Simplified Chinese
+- generated articles loaded from the filesystem without a rebuild
 
 ## License
 

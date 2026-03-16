@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { GeneratedResourceSection } from "../../components/generated-resource-section";
 import { SiteFooter } from "../../components/site-footer";
 import { SiteHeader } from "../../components/site-header";
 import { createLocaleAlternates } from "../../lib/locales";
 import { resourceLibrary } from "../../lib/marketing";
 import { absoluteUrl } from "../../lib/site";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "StreamCanvas Resources",
@@ -20,7 +23,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ResourcesPage() {
+export default async function ResourcesPage() {
   return (
     <main className="shell docs-shell">
       <SiteHeader currentPath="/resources" locale="en" />
@@ -50,6 +53,15 @@ export default function ResourcesPage() {
           </article>
         ))}
       </section>
+
+      <GeneratedResourceSection
+        emptyMessage="The automated editorial stream will appear here as soon as the first daily articles are published."
+        kicker="Daily publishing"
+        heading="Daily generated editorial stream"
+        intro="These articles are produced by an internal content pipeline focused on production generative UI, AI interface architecture, self-hosted delivery, and safe rendering. The goal is breadth without drifting into spam or unsafe topics."
+        locale="en"
+        readLabel="Read article"
+      />
 
       <SiteFooter locale="en" />
     </main>

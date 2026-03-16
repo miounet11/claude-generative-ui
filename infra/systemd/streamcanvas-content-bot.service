@@ -1,0 +1,14 @@
+[Unit]
+Description=StreamCanvas Daily Content Publisher
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/streamcanvas-content-bot.env
+WorkingDirectory=/opt/streamcanvas-content-bot
+ExecStart=/usr/bin/node /opt/streamcanvas-content-bot/publish-daily-content.mjs
+User=root
+
+[Install]
+WantedBy=multi-user.target

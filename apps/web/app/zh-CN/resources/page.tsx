@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { GeneratedResourceSection } from "../../../components/generated-resource-section";
 import { SiteFooter } from "../../../components/site-footer";
 import { SiteHeader } from "../../../components/site-header";
 import { createLocalizedAlternates, localizePath } from "../../../lib/locales";
 import { getResourceLibrary } from "../../../lib/marketing";
 import { absoluteUrl } from "../../../lib/site";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "StreamCanvas 中文资源",
@@ -19,7 +22,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ChineseResourcesPage() {
+export default async function ChineseResourcesPage() {
   const resourceLibrary = getResourceLibrary("zh-CN");
 
   return (
@@ -49,6 +52,15 @@ export default function ChineseResourcesPage() {
           </article>
         ))}
       </section>
+
+      <GeneratedResourceSection
+        emptyMessage="自动化内容流会在第一批日更文章发布后显示在这里。"
+        kicker="每日发布"
+        heading="每日自动补充的主题内容"
+        intro="这些文章由内部内容程序围绕生产级生成式 UI、AI 界面架构、自托管交付和安全渲染持续生成，目标是扩大相关主题覆盖面，同时避免低质 SEO 垃圾内容。"
+        locale="zh-CN"
+        readLabel="阅读文章"
+      />
 
       <SiteFooter locale="zh-CN" />
     </main>

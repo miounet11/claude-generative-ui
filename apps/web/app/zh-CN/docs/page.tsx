@@ -83,10 +83,12 @@ pnpm dev`}</pre>
           <pre className="code-panel">{`pnpm build
 rsync -az apps/web/.next/standalone/ server:/opt/streamcanvas-web/
 rsync -az apps/web/.next/static/ server:/opt/streamcanvas-web/apps/web/.next/static/
+rsync -az apps/web/content/generated/ server:/opt/streamcanvas-web/content/generated/
 systemctl enable --now streamcanvas-web`}</pre>
           <p className="docs-copy">
             推荐的生产路径是 Next.js standalone 运行时加 nginx 反向代理，应用只监听
-            <strong>127.0.0.1:3210</strong>。
+            <strong>127.0.0.1:3210</strong>。新增的资源文章从文件系统动态读取，因此
+            每日内容发布无需重新构建应用。
           </p>
         </article>
       </section>
@@ -101,6 +103,18 @@ pnpm dev`}</pre>
         </article>
 
         <article className="docs-card">
+          <div className="section-kicker">内容程序</div>
+          <pre className="code-panel">{`STREAMCANVAS_BOT_API_URL=...
+STREAMCANVAS_BOT_API_KEY=...
+STREAMCANVAS_BOT_MODEL=auto
+pnpm content:generate -- --count=3 --force`}</pre>
+          <p className="docs-copy">
+            这个内容程序会把中英文文章发布到资源中心，并同步扩展 RSS、sitemap 与
+            站点的可发现性入口。
+          </p>
+        </article>
+
+        <article className="docs-card">
           <div className="section-kicker">公开路由</div>
           <ul className="docs-list">
             <li><code>/zh-CN</code> 中文首页</li>
@@ -109,6 +123,9 @@ pnpm dev`}</pre>
             <li><code>/zh-CN/security</code> 安全边界与运营边界</li>
             <li><code>/zh-CN/resources</code> 中文内容中心</li>
             <li><code>/zh-CN/demo</code> 中文演示</li>
+            <li><code>/feed.xml</code> RSS 订阅源</li>
+            <li><code>/sitemap.xml</code> 动态站点地图</li>
+            <li><code>/llms.txt</code> 面向 Agent 的站点索引</li>
             <li><code>/api/health</code> 健康检查</li>
             <li><code>/api/demo</code> NDJSON 演示流接口</li>
           </ul>

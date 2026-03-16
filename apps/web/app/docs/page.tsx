@@ -87,10 +87,13 @@ pnpm dev`}</pre>
           <pre className="code-panel">{`pnpm build
 rsync -az apps/web/.next/standalone/ server:/opt/streamcanvas-web/
 rsync -az apps/web/.next/static/ server:/opt/streamcanvas-web/apps/web/.next/static/
+rsync -az apps/web/content/generated/ server:/opt/streamcanvas-web/content/generated/
 systemctl enable --now streamcanvas-web`}</pre>
           <p className="docs-copy">
             The preferred production path uses the Next.js standalone runtime behind
-            nginx with the app bound only to <strong>127.0.0.1:3210</strong>.
+            nginx with the app bound only to <strong>127.0.0.1:3210</strong>. Generated
+            resource pages are loaded from the filesystem, so new articles can go live
+            without rebuilding the app.
           </p>
         </article>
       </section>
@@ -105,6 +108,18 @@ pnpm dev`}</pre>
         </article>
 
         <article className="docs-card">
+          <div className="section-kicker">Editorial bot</div>
+          <pre className="code-panel">{`STREAMCANVAS_BOT_API_URL=...
+STREAMCANVAS_BOT_API_KEY=...
+STREAMCANVAS_BOT_MODEL=auto
+pnpm content:generate -- --count=3 --force`}</pre>
+          <p className="docs-copy">
+            The editorial pipeline publishes bilingual pages into the resource hub,
+            updates the RSS feed, and expands the sitemap without restarting the site.
+          </p>
+        </article>
+
+        <article className="docs-card">
           <div className="section-kicker">Public routes</div>
           <ul className="docs-list">
             <li><code>/</code> marketing landing page</li>
@@ -114,6 +129,9 @@ pnpm dev`}</pre>
             <li><code>/resources</code> professional long-form content hub</li>
             <li><code>/claude-generative-ui</code> intent page for Claude-style OSS discovery</li>
             <li><code>/demo</code> live product demo</li>
+            <li><code>/feed.xml</code> editorial RSS feed</li>
+            <li><code>/sitemap.xml</code> dynamic XML sitemap</li>
+            <li><code>/llms.txt</code> agent-readable site index</li>
             <li><code>/api/health</code> deployment health probe</li>
             <li><code>/api/demo</code> NDJSON demo stream endpoint</li>
           </ul>

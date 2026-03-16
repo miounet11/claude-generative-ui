@@ -1,6 +1,8 @@
+import { getGeneratedArticleCards } from "../../lib/generated-content";
 import { absoluteUrl } from "../../lib/site";
 
 export async function GET() {
+  const latestEnglishArticles = await getGeneratedArticleCards("en", 10);
   const body = `# StreamCanvas
 
 StreamCanvas is an open-source generative UI project for AI applications.
@@ -19,6 +21,7 @@ Primary pages:
 - 中文演示: ${absoluteUrl("/zh-CN/demo")}
 - Docs: ${absoluteUrl("/docs")}
 - 中文文档: ${absoluteUrl("/zh-CN/docs")}
+- RSS feed: ${absoluteUrl("/feed.xml")}
 - GitHub: https://github.com/miounet11/claude-generative-ui
 
 Key packages:
@@ -30,6 +33,11 @@ Deployment:
 - Docker runtime: Dockerfile
 - Compose stack: infra/docker-compose.yml
 - nginx proxy config: infra/nginx/codeclaude.cn.conf
+
+Latest generated editorial pages:
+${latestEnglishArticles
+  .map((article) => `- ${article.title}: ${absoluteUrl(`/resources/${article.slug}`)}`)
+  .join("\n")}
 `;
 
   return new Response(body, {

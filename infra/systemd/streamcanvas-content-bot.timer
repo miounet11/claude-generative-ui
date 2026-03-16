@@ -1,0 +1,10 @@
+[Unit]
+Description=Run StreamCanvas daily content publisher every day
+
+[Timer]
+OnCalendar=*-*-* 03:20:00
+Persistent=true
+Unit=streamcanvas-content-bot.service
+
+[Install]
+WantedBy=timers.target
