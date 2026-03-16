@@ -8,6 +8,7 @@ Type=oneshot
 EnvironmentFile=/etc/streamcanvas-content-bot.env
 WorkingDirectory=/opt/streamcanvas-content-bot
 ExecStart=/usr/bin/node /opt/streamcanvas-content-bot/publish-daily-content.mjs
+TimeoutStartSec=30min
 User=root
 
 [Install]
