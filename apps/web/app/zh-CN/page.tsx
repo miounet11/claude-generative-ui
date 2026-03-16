@@ -14,6 +14,8 @@ import {
 } from "../../lib/marketing";
 import { absoluteUrl } from "../../lib/site";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "StreamCanvas 中文版",
   description:

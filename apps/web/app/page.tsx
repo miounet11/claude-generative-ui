@@ -9,6 +9,8 @@ import { createLocaleAlternates } from "../lib/locales";
 import { createFaqSchema, createSoftwareSchema } from "../lib/seo";
 import { platformLayers, resourceLibrary, solutionTracks } from "../lib/marketing";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "StreamCanvas",
   description:
