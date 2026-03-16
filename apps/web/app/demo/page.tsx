@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 
 import { DemoShell } from "../../components/demo-shell";
+import { createLocaleAlternates } from "../../lib/locales";
 import { absoluteUrl } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "StreamCanvas Demo",
   description:
     "Use the live StreamCanvas demo to test streamed widgets, sandboxed rendering, host callbacks, and the reference generative UI workflow.",
-  alternates: {
-    canonical: "/demo",
-  },
+  alternates: createLocaleAlternates("/demo"),
   openGraph: {
     title: "StreamCanvas Demo",
     description:
@@ -19,5 +18,5 @@ export const metadata: Metadata = {
 };
 
 export default function DemoPage() {
-  return <DemoShell />;
+  return <DemoShell currentPath="/demo" locale="en" />;
 }

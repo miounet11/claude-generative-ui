@@ -10,6 +10,7 @@ import { useStreamCanvasThread } from "../provider";
 export interface WidgetSurfaceProps {
   allowUnsafeHtml?: boolean;
   className?: string;
+  emptyState?: string;
   widgetId?: string;
 }
 
@@ -335,6 +336,7 @@ function WidgetCard({
 export function WidgetSurface({
   allowUnsafeHtml = false,
   className,
+  emptyState = "Generated widgets appear here with a sandboxed renderer and event bridge.",
   widgetId,
 }: WidgetSurfaceProps) {
   const { state } = useStreamCanvasThread();
@@ -353,7 +355,7 @@ export function WidgetSurface({
             padding: "1.25rem",
           }}
         >
-          Generated widgets appear here with a sandboxed renderer and event bridge.
+          {emptyState}
         </div>
       ) : null}
       {widgets.map((widget) => (

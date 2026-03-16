@@ -4,6 +4,7 @@ import Link from "next/link";
 import { JsonLd } from "../../../components/json-ld";
 import { SiteFooter } from "../../../components/site-footer";
 import { SiteHeader } from "../../../components/site-header";
+import { createLocaleAlternates } from "../../../lib/locales";
 import { createArticleSchema, createBreadcrumbSchema } from "../../../lib/seo";
 import { absoluteUrl } from "../../../lib/site";
 
@@ -11,9 +12,7 @@ export const metadata: Metadata = {
   title: "Designing AI Interfaces That Users Can Actually Operate",
   description:
     "A product-focused guide to deciding where generative UI belongs, where plain text is enough, and how teams should structure AI work surfaces.",
-  alternates: {
-    canonical: "/resources/ai-interface-architecture",
-  },
+  alternates: createLocaleAlternates("/resources/ai-interface-architecture"),
   openGraph: {
     title: "Designing AI Interfaces That Users Can Actually Operate",
     description:
@@ -49,7 +48,7 @@ export default function AiInterfaceArchitecturePage() {
           title: "Designing AI Interfaces That Users Can Actually Operate",
         })}
       />
-      <SiteHeader />
+      <SiteHeader currentPath="/resources/ai-interface-architecture" locale="en" />
 
       <article className="article-layout">
         <div className="eyebrow">Product article</div>
@@ -109,7 +108,7 @@ export default function AiInterfaceArchitecturePage() {
         </div>
       </article>
 
-      <SiteFooter />
+      <SiteFooter locale="en" />
     </main>
   );
 }

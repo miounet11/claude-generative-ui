@@ -4,6 +4,7 @@ import Link from "next/link";
 import { JsonLd } from "../../../components/json-ld";
 import { SiteFooter } from "../../../components/site-footer";
 import { SiteHeader } from "../../../components/site-header";
+import { createLocaleAlternates } from "../../../lib/locales";
 import { createArticleSchema, createBreadcrumbSchema } from "../../../lib/seo";
 import { absoluteUrl } from "../../../lib/site";
 
@@ -11,9 +12,7 @@ export const metadata: Metadata = {
   title: "How To Secure Streamed Widget Rendering",
   description:
     "A practical explanation of the rendering risks in generative UI and how sandboxing, validation, and proxy boundaries reduce exposure.",
-  alternates: {
-    canonical: "/resources/widget-rendering-security",
-  },
+  alternates: createLocaleAlternates("/resources/widget-rendering-security"),
   openGraph: {
     title: "How To Secure Streamed Widget Rendering",
     description:
@@ -49,7 +48,7 @@ export default function WidgetRenderingSecurityPage() {
           title: "How To Secure Streamed Widget Rendering",
         })}
       />
-      <SiteHeader />
+      <SiteHeader currentPath="/resources/widget-rendering-security" locale="en" />
 
       <article className="article-layout">
         <div className="eyebrow">Security article</div>
@@ -109,7 +108,7 @@ export default function WidgetRenderingSecurityPage() {
         </div>
       </article>
 
-      <SiteFooter />
+      <SiteFooter locale="en" />
     </main>
   );
 }

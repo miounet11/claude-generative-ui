@@ -3,15 +3,14 @@ import Link from "next/link";
 
 import { SiteFooter } from "../../components/site-footer";
 import { SiteHeader } from "../../components/site-header";
+import { createLocaleAlternates } from "../../lib/locales";
 import { absoluteUrl } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "StreamCanvas Security",
   description:
     "Security model for StreamCanvas including sandboxed rendering, host-only actions, deployment boundaries, and operational controls.",
-  alternates: {
-    canonical: "/security",
-  },
+  alternates: createLocaleAlternates("/security"),
   openGraph: {
     title: "StreamCanvas Security",
     description:
@@ -42,7 +41,7 @@ const controls = [
 export default function SecurityPage() {
   return (
     <main className="shell docs-shell">
-      <SiteHeader />
+      <SiteHeader currentPath="/security" locale="en" />
 
       <section className="docs-hero">
         <div className="eyebrow">Security</div>
@@ -95,7 +94,7 @@ export default function SecurityPage() {
         </div>
       </section>
 
-      <SiteFooter />
+      <SiteFooter locale="en" />
     </main>
   );
 }

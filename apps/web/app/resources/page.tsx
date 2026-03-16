@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { SiteFooter } from "../../components/site-footer";
 import { SiteHeader } from "../../components/site-header";
+import { createLocaleAlternates } from "../../lib/locales";
 import { resourceLibrary } from "../../lib/marketing";
 import { absoluteUrl } from "../../lib/site";
 
@@ -10,9 +11,7 @@ export const metadata: Metadata = {
   title: "StreamCanvas Resources",
   description:
     "Professional articles and reference material on production generative UI, rendering security, and AI interface architecture.",
-  alternates: {
-    canonical: "/resources",
-  },
+  alternates: createLocaleAlternates("/resources"),
   openGraph: {
     title: "StreamCanvas Resources",
     description:
@@ -24,7 +23,7 @@ export const metadata: Metadata = {
 export default function ResourcesPage() {
   return (
     <main className="shell docs-shell">
-      <SiteHeader />
+      <SiteHeader currentPath="/resources" locale="en" />
 
       <section className="docs-hero">
         <div className="eyebrow">Resources</div>
@@ -52,7 +51,7 @@ export default function ResourcesPage() {
         ))}
       </section>
 
-      <SiteFooter />
+      <SiteFooter locale="en" />
     </main>
   );
 }

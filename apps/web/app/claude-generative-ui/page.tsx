@@ -4,6 +4,7 @@ import Link from "next/link";
 import { JsonLd } from "../../components/json-ld";
 import { SiteFooter } from "../../components/site-footer";
 import { SiteHeader } from "../../components/site-header";
+import { createLocaleAlternates } from "../../lib/locales";
 import { createBreadcrumbSchema, createFaqSchema } from "../../lib/seo";
 import { absoluteUrl } from "../../lib/site";
 
@@ -11,9 +12,7 @@ export const metadata: Metadata = {
   title: "Open-Source Claude Generative UI",
   description:
     "A self-hostable, production-oriented take on Claude-style generative UI with streamed widgets, React components, and safe rendering boundaries.",
-  alternates: {
-    canonical: "/claude-generative-ui",
-  },
+  alternates: createLocaleAlternates("/claude-generative-ui"),
   openGraph: {
     title: "Open-Source Claude Generative UI",
     description:
@@ -65,7 +64,7 @@ export default function ClaudeGenerativeUiPage() {
         ])}
       />
       <JsonLd data={createFaqSchema(evaluationFaq)} />
-      <SiteHeader />
+      <SiteHeader currentPath="/claude-generative-ui" locale="en" />
 
       <section className="docs-hero">
         <div className="eyebrow">Intent guide</div>
@@ -163,7 +162,7 @@ pnpm dev
         ))}
       </section>
 
-      <SiteFooter />
+      <SiteFooter locale="en" />
     </main>
   );
 }

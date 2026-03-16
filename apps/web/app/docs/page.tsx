@@ -3,15 +3,14 @@ import Link from "next/link";
 
 import { SiteFooter } from "../../components/site-footer";
 import { SiteHeader } from "../../components/site-header";
+import { createLocaleAlternates } from "../../lib/locales";
 import { absoluteUrl } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "StreamCanvas Docs",
   description:
     "Quickstart, architecture, deployment, and API guidance for building generative UI apps with StreamCanvas.",
-  alternates: {
-    canonical: "/docs",
-  },
+  alternates: createLocaleAlternates("/docs"),
   openGraph: {
     title: "StreamCanvas Docs",
     description:
@@ -38,7 +37,7 @@ const sections = [
 export default function DocsPage() {
   return (
     <main className="shell docs-shell">
-      <SiteHeader />
+      <SiteHeader currentPath="/docs" locale="en" />
 
       <section className="docs-hero">
         <div className="eyebrow">Documentation</div>
@@ -121,7 +120,7 @@ pnpm dev`}</pre>
         </article>
       </section>
 
-      <SiteFooter />
+      <SiteFooter locale="en" />
     </main>
   );
 }

@@ -4,6 +4,9 @@ import { useStreamCanvasThread } from "../provider";
 
 export interface ChatThreadProps {
   className?: string;
+  emptyState?: string;
+  roleLabels?: Partial<Record<keyof typeof roleCopy, string>>;
+  streamingSuffix?: string;
 }
 
 const roleCopy = {
@@ -12,8 +15,17 @@ const roleCopy = {
   user: "You",
 } as const;
 
-export function ChatThread({ className }: ChatThreadProps) {
+export function ChatThread({
+  className,
+  emptyState = "Start with a prompt. The assistant response and widgets stream into the thread.",
+  roleLabels,
+  streamingSuffix = " / streaming",
+}: ChatThreadProps) {
   const { state } = useStreamCanvasThread();
+  const labels = {
+    ...roleCopy,
+    ...roleLabels,
+  };
 
   return (
     <div className={className} style={{ display: "grid", gap: "1rem" }}>
@@ -26,8 +38,7 @@ export function ChatThread({ className }: ChatThreadProps) {
             padding: "1.25rem",
           }}
         >
-          Start with a prompt. The assistant response and widgets stream into the
-          thread.
+          {emptyState}
         </div>
       ) : null}
       {state.messages.map((message) => {
@@ -54,8 +65,8 @@ export function ChatThread({ className }: ChatThreadProps) {
                 textTransform: "uppercase",
               }}
             >
-              {roleCopy[message.role]}
-              {message.status === "streaming" ? " / streaming" : ""}
+              {labels[message.role]}
+              {message.status === "streaming" ? streamingSuffix : ""}
             </div>
             <div
               style={{

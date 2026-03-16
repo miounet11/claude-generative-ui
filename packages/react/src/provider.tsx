@@ -84,7 +84,7 @@ interface StreamCanvasContextValue {
   endpoint: string;
   handleWidgetEvent: (event: WidgetClientEvent) => Promise<void>;
   isBusy: boolean;
-  resetThread: () => void;
+  resetThread: (label?: string) => void;
   sendPrompt: (input: string) => Promise<void>;
   state: StreamCanvasState;
   tools: ClientToolDefinition[];
@@ -238,14 +238,14 @@ export function StreamCanvasProvider({
     }
   }
 
-  function resetThread() {
+  function resetThread(label = "Thread reset") {
     startTransition(() => {
       dispatch({
         type: "__reset__",
         seed: {
           ...baseState,
           connection: "idle",
-          statusLabel: "Thread reset",
+          statusLabel: label,
         },
       });
     });

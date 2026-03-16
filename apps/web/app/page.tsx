@@ -1,10 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { JsonLd } from "../components/json-ld";
 import { SiteFooter } from "../components/site-footer";
 import { SiteHeader } from "../components/site-header";
+import { createLocaleAlternates } from "../lib/locales";
 import { createFaqSchema, createSoftwareSchema } from "../lib/seo";
 import { platformLayers, resourceLibrary, solutionTracks } from "../lib/marketing";
+
+export const metadata: Metadata = {
+  title: "StreamCanvas",
+  description:
+    "Open-source generative UI for AI apps with streamed widgets, schema-validated React components, and a self-hostable reference app.",
+  alternates: createLocaleAlternates("/"),
+};
 const capabilities = [
   {
     body: "Tool-call streams turn into real surfaces, not screenshots or markdown hacks.",
@@ -49,7 +58,7 @@ export default function HomePage() {
     <main className="shell">
       <JsonLd data={createSoftwareSchema()} />
       <JsonLd data={createFaqSchema(faqItems)} />
-      <SiteHeader />
+      <SiteHeader currentPath="/" locale="en" />
 
       <section className="hero">
         <div>
@@ -220,7 +229,7 @@ export default function HomePage() {
         </Link>
       </section>
 
-      <SiteFooter />
+      <SiteFooter locale="en" />
     </main>
   );
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { JsonLd } from "../../../components/json-ld";
 import { SiteFooter } from "../../../components/site-footer";
 import { SiteHeader } from "../../../components/site-header";
+import { createLocaleAlternates } from "../../../lib/locales";
 import { createArticleSchema, createBreadcrumbSchema } from "../../../lib/seo";
 import { absoluteUrl } from "../../../lib/site";
 
@@ -11,9 +12,7 @@ export const metadata: Metadata = {
   title: "What Production Generative UI Actually Needs",
   description:
     "A practical guide to the systems, controls, and product layers required for a production-grade generative UI platform.",
-  alternates: {
-    canonical: "/resources/production-generative-ui",
-  },
+  alternates: createLocaleAlternates("/resources/production-generative-ui"),
   openGraph: {
     title: "What Production Generative UI Actually Needs",
     description:
@@ -68,7 +67,7 @@ export default function ProductionGenerativeUiPage() {
           title: "What Production Generative UI Actually Needs",
         })}
       />
-      <SiteHeader />
+      <SiteHeader currentPath="/resources/production-generative-ui" locale="en" />
 
       <article className="article-layout">
         <div className="eyebrow">Architecture article</div>
@@ -102,7 +101,7 @@ export default function ProductionGenerativeUiPage() {
         </div>
       </article>
 
-      <SiteFooter />
+      <SiteFooter locale="en" />
     </main>
   );
 }

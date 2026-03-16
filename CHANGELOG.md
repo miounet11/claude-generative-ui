@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+- Added a full Simplified Chinese public route tree under `/zh-CN` for the marketing site, docs, resources, and demo
+- Added multilingual navigation, language switching, locale alternates, and bilingual sitemap/LLMs discovery entries
+- Localized the demo experience for Chinese prompts and UI labels while keeping the existing English URLs stable
+
 ## 0.2.0
 
 - Expanded the web app into a fuller product site with platform, solutions, security, resources, and keyword-targeted discovery content

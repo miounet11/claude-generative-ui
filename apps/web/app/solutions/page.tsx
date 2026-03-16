@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { SiteFooter } from "../../components/site-footer";
 import { SiteHeader } from "../../components/site-header";
+import { createLocaleAlternates } from "../../lib/locales";
 import { solutionTracks } from "../../lib/marketing";
 import { absoluteUrl } from "../../lib/site";
 
@@ -10,9 +11,7 @@ export const metadata: Metadata = {
   title: "StreamCanvas Solutions",
   description:
     "Use cases for StreamCanvas across SaaS copilots, operations interfaces, analytics workflows, and regulated product teams.",
-  alternates: {
-    canonical: "/solutions",
-  },
+  alternates: createLocaleAlternates("/solutions"),
   openGraph: {
     title: "StreamCanvas Solutions",
     description:
@@ -31,7 +30,7 @@ const buyerSignals = [
 export default function SolutionsPage() {
   return (
     <main className="shell docs-shell">
-      <SiteHeader />
+      <SiteHeader currentPath="/solutions" locale="en" />
 
       <section className="docs-hero">
         <div className="eyebrow">Solutions</div>
@@ -81,7 +80,7 @@ Conversation and UI remain in sync`}</pre>
         </article>
       </section>
 
-      <SiteFooter />
+      <SiteFooter locale="en" />
     </main>
   );
 }

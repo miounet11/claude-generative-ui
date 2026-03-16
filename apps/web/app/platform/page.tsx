@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { SiteFooter } from "../../components/site-footer";
 import { SiteHeader } from "../../components/site-header";
+import { createLocaleAlternates } from "../../lib/locales";
 import { absoluteUrl } from "../../lib/site";
 import { platformLayers, trustPillars } from "../../lib/marketing";
 
@@ -10,9 +11,7 @@ export const metadata: Metadata = {
   title: "StreamCanvas Platform",
   description:
     "Architecture, deployment model, rendering system, and application layers for the StreamCanvas generative UI platform.",
-  alternates: {
-    canonical: "/platform",
-  },
+  alternates: createLocaleAlternates("/platform"),
   openGraph: {
     title: "StreamCanvas Platform",
     description:
@@ -24,7 +23,7 @@ export const metadata: Metadata = {
 export default function PlatformPage() {
   return (
     <main className="shell docs-shell">
-      <SiteHeader />
+      <SiteHeader currentPath="/platform" locale="en" />
 
       <section className="docs-hero">
         <div className="eyebrow">Platform</div>
@@ -97,7 +96,7 @@ Production deployment
         </article>
       </section>
 
-      <SiteFooter />
+      <SiteFooter locale="en" />
     </main>
   );
 }

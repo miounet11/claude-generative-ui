@@ -1,26 +1,33 @@
 import Link from "next/link";
 
-import { resourceLibrary, siteNavigation, trustPillars } from "../lib/marketing";
+import { localizePath, type SiteLocale } from "../lib/locales";
+import {
+  getMarketingContent,
+  getResourceLibrary,
+  getSiteNavigation,
+  getTrustPillars,
+} from "../lib/marketing";
 
-export function SiteFooter() {
+export function SiteFooter({ locale = "en" }: { locale?: SiteLocale }) {
+  const content = getMarketingContent(locale);
+  const navigation = getSiteNavigation(locale);
+  const resources = getResourceLibrary(locale);
+  const pillars = getTrustPillars(locale);
+
   return (
     <footer className="site-footer">
       <div className="footer-grid">
         <div className="footer-card">
           <div className="section-kicker">StreamCanvas</div>
-          <h2>Professional generative UI, built for shipping.</h2>
-          <p>
-            StreamCanvas combines a reference application, typed protocol, React
-            SDK, and safe deployment model so teams can move from demo to product
-            without changing the core interaction model.
-          </p>
+          <h2>{content.footerTagline}</h2>
+          <p>{content.footerDescription}</p>
         </div>
 
         <div className="footer-card">
-          <div className="section-kicker">Explore</div>
+          <div className="section-kicker">{content.footerExploreLabel}</div>
           <div className="footer-list">
-            {siteNavigation.map((item) => (
-              <Link href={item.href} key={item.href}>
+            {navigation.map((item) => (
+              <Link href={localizePath(locale, item.href)} key={item.href}>
                 {item.label}
               </Link>
             ))}
@@ -28,19 +35,19 @@ export function SiteFooter() {
         </div>
 
         <div className="footer-card">
-          <div className="section-kicker">Trust</div>
+          <div className="section-kicker">{content.footerTrustLabel}</div>
           <div className="footer-list">
-            {trustPillars.map((item) => (
+            {pillars.map((item) => (
               <span key={item}>{item}</span>
             ))}
           </div>
         </div>
 
         <div className="footer-card">
-          <div className="section-kicker">Resources</div>
+          <div className="section-kicker">{content.footerResourcesLabel}</div>
           <div className="footer-list">
-            {resourceLibrary.map((item) => (
-              <Link href={item.href} key={item.href}>
+            {resources.map((item) => (
+              <Link href={localizePath(locale, item.href)} key={item.href}>
                 {item.title}
               </Link>
             ))}

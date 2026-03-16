@@ -59,13 +59,44 @@ textarea {
   text-transform: uppercase;
 }
 
+.nav-group {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
 .nav-links {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
 .nav-links a {
   color: rgba(244, 240, 229, 0.72);
+}
+
+.lang-switcher {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+}
+
+.lang-option {
+  border-radius: 999px;
+  color: rgba(244, 240, 229, 0.72);
+  font-size: 0.85rem;
+  padding: 0.45rem 0.7rem;
+}
+
+.lang-option.active {
+  background: rgba(242, 116, 5, 0.16);
+  color: var(--cream);
 }
 
 .site-footer {
@@ -723,6 +754,11 @@ textarea {
     align-items: start;
     flex-direction: column;
     gap: 0.75rem;
+  }
+
+  .nav-group {
+    align-items: start;
+    flex-direction: column;
   }
 
   .hero {

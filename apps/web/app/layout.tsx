@@ -23,6 +23,8 @@ export const metadata: Metadata = {
     "generative UI",
     "Claude generative UI",
     "open source AI UI",
+    "生成式 UI",
+    "开源 Claude 生成式 UI",
     "AI widgets",
     "Next.js AI interface",
     "StreamCanvas",

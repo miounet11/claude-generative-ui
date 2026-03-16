@@ -39,9 +39,12 @@ Open `http://localhost:3000`.
 ## Docs
 
 - Overview: `/`
+- 中文首页: `/zh-CN`
 - Open-source Claude generative UI guide: `/claude-generative-ui`
 - Demo: `/demo`
+- 中文演示: `/zh-CN/demo`
 - Docs: `/docs`
+- 中文文档: `/zh-CN/docs`
 - Platform: `/platform`
 - Security: `/security`
 - Resources: `/resources`
@@ -93,6 +96,7 @@ import {
 - live demo workspace with prompt presets, telemetry, and saved scenario history
 - keyword-targeted content hub for discovery and evaluation
 - metadata routes for sitemap, robots, web manifest, and share cards
+- bilingual public site in English and Simplified Chinese
 
 ## License
 
