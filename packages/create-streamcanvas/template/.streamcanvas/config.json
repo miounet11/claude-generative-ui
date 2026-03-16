@@ -1,0 +1,5 @@
+{
+  "brand": "__APP_NAME__",
+  "entrypoint": "/api/demo",
+  "renderer": "sandboxed-iframe"
+}

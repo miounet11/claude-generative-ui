@@ -1,0 +1,27 @@
+{
+  "name": "create-streamcanvas",
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "homepage": "https://github.com/miounet11/claude-generative-ui",
+  "keywords": ["create", "scaffold", "nextjs", "ai", "generative-ui"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/miounet11/claude-generative-ui.git"
+  },
+  "bin": {
+    "create-streamcanvas": "./bin/create-streamcanvas.js"
+  },
+  "files": ["bin", "template"],
+  "scripts": {
+    "build": "node ./bin/create-streamcanvas.js --help",
+    "lint": "node --eval \"process.exit(0)\"",
+    "typecheck": "node --eval \"process.exit(0)\""
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
