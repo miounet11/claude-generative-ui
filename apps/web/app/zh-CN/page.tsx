@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { JsonLd } from "../../components/json-ld";
+import { LocaleAccessStrip } from "../../components/locale-access-strip";
 import { SiteFooter } from "../../components/site-footer";
 import { SiteHeader } from "../../components/site-header";
 import { createFaqSchema, createSoftwareSchema } from "../../lib/seo";
@@ -161,6 +162,8 @@ export default function ChineseHomePage() {
           </p>
         </article>
       </section>
+
+      <LocaleAccessStrip locale="zh-CN" />
 
       <section className="section-stack">
         <article className="section-card wide-card">

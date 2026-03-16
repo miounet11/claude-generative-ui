@@ -1,6 +1,11 @@
 import Link from "next/link";
 
-import { getLocaleLabel, localizePath, type SiteLocale } from "../lib/locales";
+import {
+  getLocaleLabel,
+  localizePath,
+  siteLocales,
+  type SiteLocale,
+} from "../lib/locales";
 import { getMarketingContent } from "../lib/marketing";
 
 export function LanguageSwitcher({
@@ -13,22 +18,25 @@ export function LanguageSwitcher({
   const content = getMarketingContent(locale);
 
   return (
-    <div className="lang-switcher" aria-label={content.languageLabel}>
-      {(["en", "zh-CN"] as const).map((targetLocale) => {
-        const href = localizePath(targetLocale, currentPath);
-        const isActive = targetLocale === locale;
+    <div className="lang-switcher-wrap">
+      <span className="lang-caption">{content.languageLabel}</span>
+      <div className="lang-switcher" aria-label={content.languageLabel}>
+        {siteLocales.map((targetLocale) => {
+          const href = localizePath(targetLocale, currentPath);
+          const isActive = targetLocale === locale;
 
-        return (
-          <Link
-            aria-current={isActive ? "page" : undefined}
-            className={`lang-option${isActive ? " active" : ""}`}
-            href={href}
-            key={targetLocale}
-          >
-            {getLocaleLabel(targetLocale)}
-          </Link>
-        );
-      })}
+          return (
+            <Link
+              aria-current={isActive ? "page" : undefined}
+              className={`lang-option${isActive ? " active" : ""}`}
+              href={href}
+              key={targetLocale}
+            >
+              {getLocaleLabel(targetLocale)}
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }

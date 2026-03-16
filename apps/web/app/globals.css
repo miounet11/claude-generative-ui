@@ -87,6 +87,19 @@ textarea {
   padding: 0.25rem;
 }
 
+.lang-switcher-wrap {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.65rem;
+}
+
+.lang-caption {
+  color: rgba(244, 240, 229, 0.56);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
 .lang-option {
   border-radius: 999px;
   color: rgba(244, 240, 229, 0.72);
@@ -101,6 +114,10 @@ textarea {
 
 .site-footer {
   margin-top: 3rem;
+}
+
+.locale-access-strip {
+  margin-top: 0.5rem;
 }
 
 .footer-grid {
@@ -759,6 +776,12 @@ textarea {
   .nav-group {
     align-items: start;
     flex-direction: column;
+  }
+
+  .lang-switcher-wrap {
+    align-items: start;
+    flex-direction: column;
+    gap: 0.4rem;
   }
 
   .hero {

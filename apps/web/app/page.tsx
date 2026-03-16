@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { JsonLd } from "../components/json-ld";
+import { LocaleAccessStrip } from "../components/locale-access-strip";
 import { SiteFooter } from "../components/site-footer";
 import { SiteHeader } from "../components/site-header";
 import { createLocaleAlternates } from "../lib/locales";
@@ -140,6 +141,8 @@ export default function HomePage() {
           </p>
         </article>
       </section>
+
+      <LocaleAccessStrip locale="en" />
 
       <section className="section-stack">
         <article className="section-card wide-card">
