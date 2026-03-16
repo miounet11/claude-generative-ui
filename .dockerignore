@@ -1,0 +1,9 @@
+.git
+.github
+node_modules
+apps/web/.next
+packages/*/dist
+coverage
+dist
+*.log
+.DS_Store
