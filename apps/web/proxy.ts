@@ -6,6 +6,7 @@ import {
   isLocalizablePath,
   localizePath,
   resolvePreferredLocale,
+  siteLocaleCookieMaxAge,
   siteLocaleCookieName,
 } from "./lib/locales";
 
@@ -22,7 +23,7 @@ function shouldBypass(pathname: string) {
 
 function withLocaleCookie(response: NextResponse, locale: string) {
   response.cookies.set(siteLocaleCookieName, locale, {
-    maxAge: 60 * 60 * 24 * 365,
+    maxAge: siteLocaleCookieMaxAge,
     path: "/",
     sameSite: "lax",
   });

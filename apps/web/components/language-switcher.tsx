@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 
 import {
   getLocaleLabel,
   localizePath,
+  siteLocaleCookieMaxAge,
+  siteLocaleCookieName,
   siteLocales,
   type SiteLocale,
 } from "../lib/locales";
@@ -16,6 +20,10 @@ export function LanguageSwitcher({
   locale?: SiteLocale;
 }) {
   const content = getMarketingContent(locale);
+
+  function persistLocalePreference(targetLocale: SiteLocale) {
+    document.cookie = `${siteLocaleCookieName}=${encodeURIComponent(targetLocale)}; Max-Age=${siteLocaleCookieMaxAge}; Path=/; SameSite=Lax`;
+  }
 
   return (
     <div className="lang-switcher-wrap">
@@ -31,6 +39,8 @@ export function LanguageSwitcher({
               className={`lang-option${isActive ? " active" : ""}`}
               href={href}
               key={targetLocale}
+              onClick={() => persistLocalePreference(targetLocale)}
+              prefetch={false}
             >
               {getLocaleLabel(targetLocale)}
             </Link>

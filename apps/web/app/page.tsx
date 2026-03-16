@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
+import { cookies, headers } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { JsonLd } from "../components/json-ld";
 import { LocaleAccessStrip } from "../components/locale-access-strip";
 import { SiteFooter } from "../components/site-footer";
 import { SiteHeader } from "../components/site-header";
-import { createLocaleAlternates } from "../lib/locales";
+import {
+  createLocaleAlternates,
+  resolvePreferredLocale,
+  siteLocaleCookieName,
+} from "../lib/locales";
 import { createFaqSchema, createSoftwareSchema } from "../lib/seo";
 import { platformLayers, resourceLibrary, solutionTracks } from "../lib/marketing";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "StreamCanvas",
@@ -56,7 +63,18 @@ const faqItems = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const cookieStore = await cookies();
+  const headerStore = await headers();
+  const preferredLocale = resolvePreferredLocale({
+    acceptLanguage: headerStore.get("accept-language"),
+    cookieLocale: cookieStore.get(siteLocaleCookieName)?.value,
+  });
+
+  if (preferredLocale === "zh-CN") {
+    redirect("/zh-CN");
+  }
+
   return (
     <main className="shell">
       <JsonLd data={createSoftwareSchema()} />

@@ -3,6 +3,7 @@ import { absoluteUrl } from "./site";
 export const siteLocales = ["en", "zh-CN"] as const;
 export const defaultSiteLocale = "en";
 export const siteLocaleCookieName = "streamcanvas_locale";
+export const siteLocaleCookieMaxAge = 60 * 60 * 24 * 365;
 
 export type SiteLocale = (typeof siteLocales)[number];
 
