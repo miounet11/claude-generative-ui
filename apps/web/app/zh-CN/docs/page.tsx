@@ -82,13 +82,15 @@ pnpm dev`}</pre>
           <div className="section-kicker">部署</div>
           <pre className="code-panel">{`pnpm build
 rsync -az apps/web/.next/standalone/ server:/opt/streamcanvas-web/
+ssh server "mkdir -p /opt/streamcanvas-web/apps/web/.next/static /opt/streamcanvas-web/content/generated"
 rsync -az apps/web/.next/static/ server:/opt/streamcanvas-web/apps/web/.next/static/
 rsync -az apps/web/content/generated/ server:/opt/streamcanvas-web/content/generated/
-systemctl enable --now streamcanvas-web`}</pre>
+systemctl restart streamcanvas-web`}</pre>
           <p className="docs-copy">
             推荐的生产路径是 Next.js standalone 运行时加 nginx 反向代理，应用只监听
             <strong>127.0.0.1:3210</strong>。新增的资源文章从文件系统动态读取，因此
-            每日内容发布无需重新构建应用。
+            每日内容发布无需重新构建应用。重启服务前要先确保
+            <code>.next/static</code> 目标目录已经存在。
           </p>
         </article>
       </section>

@@ -263,6 +263,7 @@ When updating the standalone runtime, use:
 
 ```bash
 rsync -az --delete --exclude 'content' apps/web/.next/standalone/ root@server:/opt/streamcanvas-web/
+ssh root@server "mkdir -p /opt/streamcanvas-web/apps/web/.next/static /opt/streamcanvas-web/content/generated"
 rsync -az --delete apps/web/.next/static/ root@server:/opt/streamcanvas-web/apps/web/.next/static/
 rsync -az --delete apps/web/content/generated/ root@server:/opt/streamcanvas-web/content/generated/
 systemctl restart streamcanvas-web
@@ -274,6 +275,7 @@ Why:
 
 - `--delete` is required to prevent stale route artifacts from older builds
 - `--exclude 'content'` protects the external content directory while cleaning stale build files
+- the standalone server only serves `/_next/static/*` when `apps/web/.next/static` exists before process start
 
 Without this, some routes can continue serving older behavior from leftover standalone artifacts.
 
@@ -521,6 +523,7 @@ Web deployment:
 
 ```bash
 rsync -az --delete --exclude 'content' apps/web/.next/standalone/ root@server:/opt/streamcanvas-web/
+ssh root@server "mkdir -p /opt/streamcanvas-web/apps/web/.next/static /opt/streamcanvas-web/content/generated"
 rsync -az --delete apps/web/.next/static/ root@server:/opt/streamcanvas-web/apps/web/.next/static/
 rsync -az --delete apps/web/content/generated/ root@server:/opt/streamcanvas-web/content/generated/
 systemctl restart streamcanvas-web

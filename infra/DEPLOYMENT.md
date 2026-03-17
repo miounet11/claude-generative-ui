@@ -14,11 +14,13 @@ This repository includes an isolated deployment bundle intended not to disturb e
 ```bash
 pnpm build
 rsync -az apps/web/.next/standalone/ root@server:/opt/streamcanvas-web/
+ssh root@server "mkdir -p /opt/streamcanvas-web/apps/web/.next/static /opt/streamcanvas-web/content/generated"
 rsync -az apps/web/.next/static/ root@server:/opt/streamcanvas-web/apps/web/.next/static/
 rsync -az apps/web/content/generated/ root@server:/opt/streamcanvas-web/content/generated/
 cp infra/systemd/streamcanvas-web.service /etc/systemd/system/streamcanvas-web.service
 systemctl daemon-reload
-systemctl enable --now streamcanvas-web
+systemctl enable streamcanvas-web
+systemctl restart streamcanvas-web
 cp infra/nginx/codeclaude.cn.conf /www/server/panel/vhost/nginx/www.codeclaude.cn.conf
 /www/server/nginx/sbin/nginx -t -c /www/server/nginx/conf/nginx.conf
 /www/server/nginx/sbin/nginx -s reload -c /www/server/nginx/conf/nginx.conf
@@ -69,4 +71,5 @@ systemctl status streamcanvas-content-bot.timer
 - The app binds only to `127.0.0.1:3210`
 - The public cutover is only an nginx vhost change for `codeclaude.cn`
 - Generated articles live under `/opt/streamcanvas-web/content/generated` instead of inside the build output
+- The standalone runtime expects `apps/web/.next/static` to exist before `streamcanvas-web` starts
 - Existing host services continue running on their own ports and vhosts
