@@ -88,14 +88,14 @@ pnpm dev`}</pre>
 rsync -az apps/web/.next/standalone/ server:/opt/streamcanvas-web/
 ssh server "mkdir -p /opt/streamcanvas-web/apps/web/.next/static /opt/streamcanvas-web/content/generated"
 rsync -az apps/web/.next/static/ server:/opt/streamcanvas-web/apps/web/.next/static/
-rsync -az apps/web/content/generated/ server:/opt/streamcanvas-web/content/generated/
 systemctl restart streamcanvas-web`}</pre>
           <p className="docs-copy">
             The preferred production path uses the Next.js standalone runtime behind
             nginx with the app bound only to <strong>127.0.0.1:3210</strong>. Generated
             resource pages are loaded from the filesystem, so new articles can go live
             without rebuilding the app. Make sure the <code>.next/static</code> target
-            directory exists before restarting the standalone service.
+            directory exists before restarting the standalone service. Do not
+            overwrite the live generated-content directory during routine app deploys.
           </p>
         </article>
       </section>

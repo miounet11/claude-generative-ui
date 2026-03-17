@@ -293,11 +293,13 @@ async function listExistingSlugs() {
 
 function selectTopics(count, state, existingSlugs) {
   const topics = buildTopicCatalog();
-  const usedIds = new Set(state.publishedTopicIds);
   const selected = [];
 
   for (const topic of topics) {
-    if (usedIds.has(topic.id) || existingSlugs.has(topic.slug)) {
+    // The on-disk content library is the source of truth for what is live.
+    // If a deploy accidentally wipes generated JSON files, the bot must be
+    // able to recreate them even if their topic IDs remain in state.json.
+    if (existingSlugs.has(topic.slug)) {
       continue;
     }
 
